@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm, Field } from 'redux-form'; // Old version 4.1.3
+import { signinUser } from '../../actions';
+import { connect } from 'react-redux';
 
 class Signin extends Component {
     static contextTypes = {
@@ -7,8 +9,9 @@ class Signin extends Component {
     }
 
     handleFormSubmit({ email, password }) {
-        // console.log(email, password);
-        // console.log(this.context.store.getState());
+        console.log(email, password);
+        //console.log(this.context.store.getState());
+        this.props.signinUser({ email, password });
     }
 
     render() {
@@ -29,6 +32,6 @@ class Signin extends Component {
     }
 }
 
-export default reduxForm({
+export default connect(null, { signinUser })(reduxForm({
     form: 'signinForm'
-})(Signin);
+})(Signin));
