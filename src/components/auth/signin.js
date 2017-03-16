@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm, Field } from 'redux-form'; // Old version 4.1.3
-import { signinUser } from '../../actions';
+import * as actions from '../../actions';
 import { connect } from 'react-redux';
 
 class Signin extends Component {
@@ -32,6 +32,6 @@ class Signin extends Component {
     }
 }
 
-export default connect(null, { signinUser })(reduxForm({
+export default connect(null, actions)(reduxForm({
     form: 'signinForm'
 })(Signin));

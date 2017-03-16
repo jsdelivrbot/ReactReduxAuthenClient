@@ -1,24 +1,24 @@
 import axios from 'axios';
 
+const API_URL = 'http://localhost:5000';
+
 export function signinUser({ email, password }) {
-    // Submit email and password to server
-    const request = axios.post('http://localhost:5000/signin', { email, password });
-
-
     return (dispatch) => {
-        request.then(res => {
-            console.log(res);
-            dispatch({
-                type: 'success',
-                payload: res.data
+        // Submit email and password to server
+        axios.post(`${API_URL}/signin`, { email, password })
+            .then(res => {
+                console.log(res);
+                dispatch({
+                    type: 'success',
+                    payload: res.data
+                });
+            }).catch(function (error) {
+                console.log(error);
+                dispatch({
+                    type: 'err',
+                    payload: res.data
+                });
             });
-        }).catch(function (error) {
-            console.log(error);
-            dispatch({
-                type: 'err',
-                payload: res.data
-            });
-        });
     }
 
 
