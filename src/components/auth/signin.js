@@ -9,9 +9,19 @@ class Signin extends Component {
     }
 
     handleFormSubmit({ email, password }) {
-        console.log(email, password);
+        //console.log(email, password);
         //console.log(this.context.store.getState());
         this.props.signinUser({ email, password });
+    }
+
+    renderAlert() {
+        if (this.props.errorMessage) {
+            return (
+                <div className='alert alert-danger'>
+                    <strong>Oops!</strong> {this.props.errorMessage}
+                </div>
+            );
+        }
     }
 
     render() {
@@ -24,14 +34,21 @@ class Signin extends Component {
                 </fieldset>
                 <fieldset className='form-group'>
                     <label>Password:</label>
-                    <Field name="password" component="input" className='form-control' />
+                    <Field name="password" component="input" type="password" className='form-control' />
                 </fieldset>
+                {this.renderAlert()}
                 <button action='submit' className='btn btn-primary'>Sign in</button>
             </form>
         );
     }
 }
 
-export default connect(null, actions)(reduxForm({
+function mapStateToProps(state) {
+    return {
+        errorMessage: state.auth.error
+    }
+}
+
+export default connect(mapStateToProps, actions)(reduxForm({
     form: 'signinForm'
 })(Signin));
