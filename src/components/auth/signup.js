@@ -1,22 +1,29 @@
 import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import * as action from '../../actions';
+import * as actions from '../../actions';
 
 class Signup extends Component {
-    handleFormSubmit(e) {
-        e.preventDefault();
+    handleFormSubmit(formProps) {
+        this.props.signupUser(formProps);
     }
 
-    renderField({ input, label, type, x, meta: { touched, error, warning } }) {
+    renderAlert() {
+        if (this.props.errorMessage) {
+            return (
+                <div className='alert alert-danger'>
+                    <strong>Oops!</strong> {this.props.errorMessage}
+                </div>
+            );
+        }
+    }
+
+    renderField({ input, label, type, test_property, meta: { touched, error, warning } }) {
         return (
             <fieldset className="form-group">
-                {/*<label>{label + ' | ' + (x || '')}</label>*/}
                 <label>{label} :</label>
-                <div>
-                    <input {...input} placeholder={label} type={type} className="form-control" />
-                    {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))}
-                </div>
+                <input {...input} placeholder={label} type={type} className="form-control" />
+                {touched && ((error && <div className='error'>{error}</div>) || (warning && <span>{warning}</span>))}
             </fieldset>
         );
     }
@@ -25,9 +32,10 @@ class Signup extends Component {
         const { handleSubmit, pristine, reset, submitting } = this.props;
         return (
             <form onSubmit={handleSubmit(this.handleFormSubmit.bind(this))}>
-                <Field name="email" type="text" component={this.renderField} label="Email" x="eeeee" />
+                <Field name="email" type="text" component={this.renderField} label="Email" test_property="eeeee" />
                 <Field name="password" type="password" component={this.renderField} label="Password" />
                 <Field name="passwordConfrim" type="password" component={this.renderField} label="Confirm Password" />
+                {this.renderAlert()}
                 <button type="submit" className="btn btn-primary" disabled={submitting}>Sing Up</button>
                 <button type="button" className="btn btn-danger" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
             </form>
@@ -57,7 +65,13 @@ const validate = values => {
     return errors;
 }
 
-export default connect()(
+function mapStateToProps(state) {
+    return {
+        errorMessage: state.auth.error
+    }
+}
+
+export default connect(mapStateToProps, actions)(
     reduxForm({
         form: 'signup',
         validate

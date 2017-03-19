@@ -5,10 +5,10 @@ const INITIAL = { authenticated: false };
 export default (state = INITIAL, action) => {
     switch (action.type) {
         case AUTH_USER:
-            return { ...state, authenticated: true };
+            return { ...state, error: '', authenticated: true };
             break;
         case UNAUTH_USER:
-            return { ...state, authenticated: false };
+            return { ...state, error: '', authenticated: false };
             break;
         case AUTH_ERROR:
             return { ...state, error: action.payload };
