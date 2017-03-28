@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import reduxThunk from 'redux-thunk';
+import reduxPromise from 'redux-promise';
 import { AUTH_USER } from './actions/types';
 
 import App from './components/app';
@@ -16,7 +17,8 @@ import Welcome from './components/welcome';
 import reducers from './reducers';
 
 const createStoreWithMiddleware = applyMiddleware(
-  reduxThunk
+  reduxThunk,
+  reduxPromise
 )(createStore);
 
 const store = createStoreWithMiddleware(reducers);

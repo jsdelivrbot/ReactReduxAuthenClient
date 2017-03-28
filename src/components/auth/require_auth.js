@@ -7,7 +7,7 @@ export default function (ComposedComponent) {
             router: PropTypes.object
         }
         componentWillMount() {
-            console.log(this.props.authenticated);
+            //console.log(this.props.authenticated);
             if (!this.props.authenticated) {
                 this.context.router.push('/');
             }

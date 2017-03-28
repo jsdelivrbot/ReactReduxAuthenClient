@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
-import { AUTH_USER, UNAUTH_USER, AUTH_ERROR } from './types';
+import { AUTH_USER, UNAUTH_USER, AUTH_ERROR, FETCH_MESSAGE } from './types';
 
 const API_URL = 'http://localhost:5000';
 
@@ -55,3 +55,18 @@ export function authError(error) {
     };
 };
 
+export function fetchMessage() {
+    // แบบ redux-thunk
+    // return function (dispatch) {
+    //     axios.get(API_URL, {
+    //         headers: { authorization: localStorage.getItem('token') }
+    //     }).then(res => {
+    //         //console.log(res);
+    //         dispatch({ type: FETCH_MESSAGE, payload: res.data.message });
+    //     });
+    // }
+    // แบบ redux-promise
+    const res = axios.get(API_URL, { headers: { authorization: localStorage.getItem('token') } });
+    //console.log(res);
+    return { type: FETCH_MESSAGE, payload: res }
+}
